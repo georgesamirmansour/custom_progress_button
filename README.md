@@ -1,153 +1,140 @@
-# progress_button
+Sure! Below is the full README for version 2.0.0 of the `ProgressButton` widget.
 
-Progress button help developer to make custom progress with button and animation.
+# ProgressButton v2.0.0
 
-## Getting Started
+`ProgressButton` is a customizable button widget for Flutter that allows displaying different states based on the `ButtonState` enum. It supports a loading state with an optional progress indicator. The appearance and behavior of the button can be customized using various properties.
 
-Features
-```groovy
-    1.change button shape with elevated, outline or flat
-    2.change button state using idle, loading, success or fail
-    3.you can use button with icon
+## Installation
+
+Add the following dependency to your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  progress_button: ^2.0.0
 ```
-## Examples: ProgressButton
-```groovy
- ProgressButton(
-               // change button text depend on current state
-               stateWidgets: {
-                 ButtonState.success: Text(
-                   'Success',
-                   style: TextStyle(fontSize: 20),
-                 ),
-                 ButtonState.fail: Text(
-                   'Fail',
-                   style: TextStyle(fontSize: 20),
-                 ),
-                 ButtonState.loading: Text(
-                   'Loading',
-                   style: TextStyle(fontSize: 20),
-                 ),
-                 ButtonState.idle: Text(
-                   'Idle',
-                   style: TextStyle(fontSize: 20),
-                 ),
-               },
-               // used in case of ButtonShapeEnum = ButtonShapeEnum.flat
-               // this is line rounded to button
-               inLineBackgroundColor: Colors.red,
-               // change button color depending on current button state
-               stateColors: {
-                 ButtonState.success: Colors.green,
-                 ButtonState.fail: Colors.redAccent,
-                 ButtonState.loading: Colors.red,
-                 ButtonState.idle: Colors.blue,
-               },
-               // called when animation of button ended
-               onAnimationEnd: () {},
-               // button radius
-               radius: 100.0,
-               // button height
-               height: 70,
-               // button shape enum as elevated, outline, flat
-               buttonShapeEnum: ButtonShapeEnum.flat,
-               // change default elevation of button,
-               elevation: 10.0,
-               // change alignment between progress and text of button in case of loading state
-               progressAlignment: MainAxisAlignment.center,
-               // disable/enable clicking on button
-               enable: true,
-               // button states are idle, loading, success, fail
-               state: ButtonState.idle,
-               // add padding
-               padding: EdgeInsets.zero,
-               // add max width to button
-               maxWidth: 200.0,
-               // default min width of button
-               minWidth: 100.0,
-               // progress size
-               progressIndicatorSize: 10.0,
-               // change default progress widget of button, default is
-               progressWidget: CircularProgressIndicator(),
-               // on pressed action
-               onPressed: () {},
-             )
+
+Then, run `flutter pub get` to install the package.
+
+## Usage
+
+Import the package in your Dart file:
+
+```dart
+import 'package:progress_button/progress_button.dart';
 ```
-## Examples: ProgressButton.icon
-```groovy
- ProgressButton.icon(
-              // set states of button with text and your custom icon is widget
-              iconButtons: {
-                ButtonState.success: CustomIconButton(
-                    icon: Icon(Icons.check),
-                    color: Colors.green,
-                    text: 'Success'),
-                ButtonState.fail: CustomIconButton(
-                    icon: Icon(Icons.clear), color: Colors.red, text: 'Fail'),
-                ButtonState.loading: CustomIconButton(
-                    icon: Icon(Icons.downloading),
-                    color: Colors.red,
-                    text: 'Loading'),
-                ButtonState.idle: CustomIconButton(
-                    icon: Icon(Icons.login), color: Colors.green, text: 'Idle'),
-              },
-              // set default text style from here
-              textStyle: TextStyle(color: Colors.black, fontSize: 18.0),
-              // padding between icon and text
-              iconPadding: 10.0,
-              // used in case of ButtonShapeEnum = ButtonShapeEnum.flat
-              // this is line rounded to button
-              inLineBackgroundColor: Colors.red,
-              // change button color depending on current button state
-              // called when animation of button ended
-              onAnimationEnd: () {},
-              // button radius
-              radius: 100.0,
-              // button height
-              height: 70,
-              // button shape enum as elevated, outline, flat
-              buttonShapeEnum: ButtonShapeEnum.flat,
-              // change default elevation of button,
-              elevation: 10.0,
-              // change alignment of progress in case of loading state
-              progressIndicatorAlignment: MainAxisAlignment.center,
-              // disable/enable clicking on button
-              enable: true,
-              // button states are idle, loading, success, fail
-              state: ButtonState.idle,
-              // add padding
-              padding: EdgeInsets.zero,
-              // add max width to button
-              maxWidth: 200.0,
-              // default min width of button
-              minWidth: 100.0,
-              // progress size
-              progressIndicatorSize: 10.0,
-              // change default progress widget of button, default is
-              progressWidget: CircularProgressIndicator(),
-              // on pressed action
-              onPressed: () {},
-            )
+
+### Basic Usage
+
+To use the `ProgressButton`, provide a map of widgets for different button states and a map of colors for different states. Then, set the `state` property to control the current state of the button.
+
+```dart
+ProgressButton(
+  stateWidgets: {
+    ButtonState.idle: Text('Submit'), // Idle state widget
+    ButtonState.loading: CircularProgressIndicator(), // Loading state widget
+    ButtonState.success: Icon(Icons.check), // Success state widget
+    ButtonState.fail: Icon(Icons.close), // Fail state widget
+  },
+  stateColors: {
+    ButtonState.idle: Colors.blue, // Idle state color
+    ButtonState.loading: Colors.grey, // Loading state color
+    ButtonState.success: Colors.green, // Success state color
+    ButtonState.fail: Colors.red, // Fail state color
+  },
+  state: ButtonState.idle, // Initial state
+  onPressed: () {
+    // Handle button press
+  },
+),
 ```
-License
---------
-MIT License
 
-Copyright (c) 2021 George Samir
+### Advanced Usage
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+#### Customizing Button Properties
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You can customize various properties of the `ProgressButton`:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+```dart
+ProgressButton(
+  // ... other properties
+  minWidth: 200.0, // Minimum width of the button
+  maxWidth: 400.0, // Maximum width of the button
+  radius: 20.0, // Corner radius of the button
+  height: 48.0, // Height of the button
+  progressIndicatorSize: 20.0, // Size of the progress indicator
+  progressAlignment: MainAxisAlignment.center, // Alignment of the progress indicator
+  padding: EdgeInsets.symmetric(horizontal: 16.0), // Padding around the button's child
+  minWidthStates: [ButtonState.loading], // List of states that should use the minimum width
+  buttonShapeEnum: ButtonShapeEnum.elevated, // Shape of the button (elevated, outline, or flat)
+  elevation: 4.0, // Elevation of the button (used only for elevated and outlined shapes)
+  inLineBackgroundColor: Colors.white, // Background color for loading and success states
+  enable: true, // Enable or disable the button
+),
+```
+
+#### Using Icon Buttons
+
+You can use the `ProgressButton.icon` constructor to create buttons with icon buttons for different states:
+
+```dart
+ProgressButton.icon(
+  iconButtons: {
+    ButtonState.idle: CustomIconButton(
+      text: 'Submit',
+      icon: Icon(Icons.send),
+      color: Colors.blue,
+    ),
+    ButtonState.loading: CustomIconButton(
+      icon: CircularProgressIndicator(),
+      color: Colors.grey,
+    ),
+    ButtonState.success: CustomIconButton(
+      icon: Icon(Icons.check),
+      color: Colors.green,
+    ),
+    ButtonState.fail: CustomIconButton(
+      icon: Icon(Icons.close),
+      color: Colors.red,
+    ),
+  },
+  onPressed: () {
+    // Handle button press
+  },
+),
+```
+
+## CustomIconButton Class
+
+The `CustomIconButton` class represents an icon button with optional text and color. You can use this class to customize the appearance of the `ProgressButton` icon buttons.
+
+```dart
+class CustomIconButton {
+  final String? text;
+  final Widget? icon;
+  final Color color;
+
+  const CustomIconButton({
+    this.text,
+    this.icon,
+    required this.color,
+  });
+}
+```
+
+## Utility Functions
+
+The `ProgressButton` package also provides utility functions to help build widgets containing icons, text, and gaps with specified styles:
+
+- `buildChildWithIcon`: A function to build a widget containing an icon and optional text with a specified gap.
+- `buildChildWithIC`: A function to build a widget containing text and an icon with a specified gap.
+- `buildText`: A function to build a text widget with the provided text and text style.
+
+## Feedback and Contributions
+
+We welcome feedback and contributions! If you encounter any issues or have suggestions for improvements, please [file an issue](https://github.com/georgesamirmansour/custom_progress_button/issues) on GitHub.
+
+If you want to contribute to the project, feel free to open a pull request. We appreciate your help in making `ProgressButton` even better!
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/georgesamirmansour/custom_progress_button/LICENSE).

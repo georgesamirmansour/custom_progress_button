@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:custom_progress_button/custom_progress.dart';
+import 'package:custom_progress_button/custom_progress_button.dart';
 
 void main() {
   runApp(MyApp());
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               height: 20,
             ),
-            ProgressButton(
+            CustomProgressButton(
               // change button text depend on current state
               stateWidgets: {
                 ButtonState.success: Text(

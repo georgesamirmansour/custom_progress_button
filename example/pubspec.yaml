@@ -4,7 +4,7 @@ description: example for progress button
 version: 1.0.0
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: '>=3.0.3 <4.0.0'
 
 dependencies:
   flutter:
@@ -15,7 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   custom_progress_button:
-    path: ../
+    path: ../../custom_progress_button
 
 flutter:
   uses-material-design: true

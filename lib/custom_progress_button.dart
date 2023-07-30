@@ -1,75 +1,113 @@
 import 'package:flutter/material.dart';
 import 'custom_icon_button.dart';
 
+// Enum to represent the different states of the button
 enum ButtonState { idle, loading, success, fail }
+
+// Enum to represent different button shapes
 enum ButtonShapeEnum { elevated, outline, flat }
 
-class ProgressButton extends StatefulWidget {
+/// A customizable button that shows different states based on the [ButtonState].
+/// It supports a loading state with an optional progress indicator.
+/// The appearance and behavior of the button can be customized using various properties.
+class CustomProgressButton extends StatefulWidget {
+  // A map containing widgets to display for different button states.
   final Map<ButtonState, Widget> stateWidgets;
+
+  // A map containing colors for different button states.
   final Map<ButtonState, Color> stateColors;
+
+  // The function to be called when the button is pressed.
   final VoidCallback onPressed;
+
+  // A function that is called when the animation ends.
   final Function? onAnimationEnd;
-  late ButtonState state;
+
+  // The initial state of the button. Defaults to [ButtonState.idle].
+  late final ButtonState state;
+
+  // The minimum width of the button. Defaults to 200.0.
   late final double minWidth;
+
+  // The maximum width of the button. Defaults to 400.0.
   late final double maxWidth;
+
+  // The corner radius of the button. If null, it will be set to half of the button's height.
   final double? radius;
+
+  // The height of the button. Defaults to 36.0.
   late final double height;
+
+  // The optional widget to display while the button is in the loading state.
   final Widget? progressWidget;
+
+  // The size of the progress indicator. Defaults to 10.0.
   late final double progressIndicatorSize;
+
+  // The alignment of the progress indicator when [progressWidget] is not provided.
+  // Defaults to [MainAxisAlignment.spaceEvenly].
   late final MainAxisAlignment progressAlignment;
+
+  // Padding around the button's child (content).
   late final EdgeInsets padding;
+
+  // The list of states that should use the minimum width of the button.
   late final List<ButtonState> minWidthStates;
+
+  // The shape of the button. Defaults to [ButtonShapeEnum.elevated].
   late final ButtonShapeEnum buttonShapeEnum;
+
+  // The elevation of the button. Used only for [ButtonShapeEnum.elevated] and [ButtonShapeEnum.outline].
   late final double elevation;
+
+  // The background color of the button when it's in the loading or success state.
   late final Color inLineBackgroundColor;
+
+  // If false, the button will be disabled and not respond to touch events. Defaults to true.
   late final bool enable;
 
-  ProgressButton(
-      {Key? key,
-      required this.stateWidgets,
-      required this.stateColors,
-      this.state = ButtonState.idle,
-      required this.onPressed,
-      this.onAnimationEnd,
-      this.minWidth = 200.0,
-      this.maxWidth = 400.0,
-      this.radius,
-      this.height = 36.0,
-      this.progressIndicatorSize = 10.0,
-      this.progressWidget,
-      this.progressAlignment = MainAxisAlignment.spaceEvenly,
-      this.padding = EdgeInsets.zero,
-      this.minWidthStates = const <ButtonState>[ButtonState.loading],
-      this.buttonShapeEnum = ButtonShapeEnum.elevated,
-      this.elevation = 8.0,
-      this.enable = true,
-      this.inLineBackgroundColor = Colors.white})
-      : assert(
+  CustomProgressButton({
+    Key? key,
+    required this.stateWidgets,
+    required this.stateColors,
+    this.state = ButtonState.idle,
+    required this.onPressed,
+    this.onAnimationEnd,
+    this.minWidth = 200.0,
+    this.maxWidth = 400.0,
+    this.radius,
+    this.height = 40.0,
+    this.progressIndicatorSize = 10.0,
+    this.progressWidget,
+    this.progressAlignment = MainAxisAlignment.spaceEvenly,
+    this.padding = EdgeInsets.zero,
+    this.minWidthStates = const <ButtonState>[ButtonState.loading],
+    this.buttonShapeEnum = ButtonShapeEnum.elevated,
+    this.elevation = 8.0,
+    this.enable = true,
+    this.inLineBackgroundColor = Colors.white,
+  })  : assert(
           stateWidgets.keys.toSet().containsAll(ButtonState.values.toSet()),
-          'Must be non-null widgets provided in map of stateWidgets. Missing keys => ${ButtonState.values.toSet().difference(stateWidgets.keys.toSet())}',
+          'Must provide non-null widgets for all ButtonState values. Missing keys: ${ButtonState.values.toSet().difference(stateWidgets.keys.toSet())}',
         ),
         assert(
           stateColors.keys.toSet().containsAll(ButtonState.values.toSet()),
-          'Must be non-null widgetds provided in map of stateWidgets. Missing keys => ${ButtonState.values.toSet().difference(stateColors.keys.toSet())}',
+          'Must provide non-null colors for all ButtonState values. Missing keys: ${ButtonState.values.toSet().difference(stateColors.keys.toSet())}',
         ),
         super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ProgressButtonState();
-  }
-
-  factory ProgressButton.icon({
+  // A factory constructor to create a [ProgressButton] with icon buttons for different states.
+  factory CustomProgressButton.icon({
     required Map<ButtonState, CustomIconButton> iconButtons,
     required VoidCallback onPressed,
     ButtonState state = ButtonState.idle,
     Function? onAnimationEnd,
-    maxWidth: 170.0,
-    minWidth: 58.0,
-    height: 53.0,
-    radius: 100.0,
-    progressIndicatorSize: 35.0,
-    double iconPadding: 4.0,
+    maxWidth = 170.0,
+    minWidth = 58.0,
+    height = 53.0,
+    radius = 100.0,
+    progressIndicatorSize = 35.0,
+    double iconPadding = 4.0,
     TextStyle? textStyle,
     ButtonShapeEnum buttonShapeEnum = ButtonShapeEnum.elevated,
     double elevation = 8.0,
@@ -81,15 +119,16 @@ class ProgressButton extends StatefulWidget {
     List<ButtonState> minWidthStates = const <ButtonState>[ButtonState.loading],
   }) {
     assert(
-      iconButtons != null &&
+      iconButtons.isNotEmpty &&
           iconButtons.keys.toSet().containsAll(ButtonState.values.toSet()),
-      'Must be non-null widgets provided in map of stateWidgets. Missing keys => ${ButtonState.values.toSet().difference(iconButtons.keys.toSet())}',
+      'Must provide non-null widgets for all ButtonState values. Missing keys: ${ButtonState.values.toSet().difference(iconButtons.keys.toSet())}',
     );
 
     if (textStyle == null) {
       textStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.w500);
     }
 
+    // Create a map of widgets for different states.
     Map<ButtonState, Widget> stateWidgets = {
       ButtonState.idle: buildChildWithIcon(
           iconButtons[ButtonState.idle]!, iconPadding, textStyle),
@@ -97,9 +136,10 @@ class ProgressButton extends StatefulWidget {
       ButtonState.fail: buildChildWithIcon(
           iconButtons[ButtonState.fail]!, iconPadding, textStyle),
       ButtonState.success: buildChildWithIcon(
-          iconButtons[ButtonState.success]!, iconPadding, textStyle)
+          iconButtons[ButtonState.success]!, iconPadding, textStyle),
     };
 
+    // Create a map of colors for different states.
     Map<ButtonState, Color> stateColors = {
       ButtonState.idle: iconButtons[ButtonState.idle]!.color,
       ButtonState.loading: iconButtons[ButtonState.loading]!.color,
@@ -107,7 +147,8 @@ class ProgressButton extends StatefulWidget {
       ButtonState.success: iconButtons[ButtonState.success]!.color,
     };
 
-    return ProgressButton(
+    // Return a new [ProgressButton] instance with the configured properties.
+    return CustomProgressButton(
       stateWidgets: stateWidgets,
       stateColors: stateColors,
       state: state,
@@ -128,9 +169,15 @@ class ProgressButton extends StatefulWidget {
       enable: enable,
     );
   }
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CustomProgressButtonState();
+  }
 }
 
-class _ProgressButtonState extends State<ProgressButton>
+// The private state class for [ProgressButton]
+class _CustomProgressButtonState extends State<CustomProgressButton>
     with TickerProviderStateMixin {
   AnimationController? colorAnimationController;
   Animation<Color?>? colorAnimation;
@@ -138,6 +185,7 @@ class _ProgressButtonState extends State<ProgressButton>
   Duration animationDuration = Duration(milliseconds: 500);
   Widget? progressWidget;
 
+  // Start color animations when the state changes
   void startAnimations(ButtonState? oldState, ButtonState? newState) {
     Color? begin = widget.stateColors[oldState!];
     Color? end = widget.stateColors[newState!];
@@ -150,6 +198,7 @@ class _ProgressButtonState extends State<ProgressButton>
     colorAnimationController!.forward();
   }
 
+  // Create a color animation between the given [begin] and [end] colors
   Animation<Color?> _colorAnimation(Color? begin, Color? end) =>
       ColorTween(begin: begin, end: end).animate(CurvedAnimation(
         parent: colorAnimationController!,
@@ -160,6 +209,7 @@ class _ProgressButtonState extends State<ProgressButton>
         ),
       ));
 
+  // Get the background color based on the current animation value or the current state
   Color? get backgroundColor => colorAnimation == null
       ? widget.stateColors[widget.state]
       : colorAnimation!.value ?? widget.stateColors[widget.state];
@@ -178,14 +228,17 @@ class _ProgressButtonState extends State<ProgressButton>
     progressWidget = _progress;
   }
 
+  // Get a new animation controller
   AnimationController get _animationController =>
       AnimationController(duration: animationDuration, vsync: this);
 
+  // Get the progress widget or a default CircularProgressIndicator if not provided
   Widget get _progress =>
       widget.progressWidget ??
       CircularProgressIndicator(
-          backgroundColor: widget.stateColors[widget.state],
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white));
+        backgroundColor: widget.stateColors[widget.state],
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      );
 
   @override
   void dispose() {
@@ -194,7 +247,7 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   @override
-  void didUpdateWidget(ProgressButton oldWidget) {
+  void didUpdateWidget(CustomProgressButton oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.state != widget.state) {
@@ -203,6 +256,7 @@ class _ProgressButtonState extends State<ProgressButton>
     }
   }
 
+  // Get the button child based on whether it's in the loading state or not
   Widget getButtonChild(bool visibility) {
     Widget? buttonChild = widget.stateWidgets[widget.state];
     if (widget.state == ButtonState.loading) {
@@ -223,11 +277,13 @@ class _ProgressButtonState extends State<ProgressButton>
     return _animatedOpacity(visibility, buttonChild);
   }
 
+  // Get an animated opacity widget based on visibility and the child widget
   AnimatedOpacity _animatedOpacity(bool visibility, Widget? child) =>
       AnimatedOpacity(
-          opacity: visibility ? 1.0 : 0.0,
-          duration: Duration(milliseconds: 250),
-          child: child);
+        opacity: visibility ? 1.0 : 0.0,
+        duration: Duration(milliseconds: 250),
+        child: child,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -235,51 +291,62 @@ class _ProgressButtonState extends State<ProgressButton>
       animation: colorAnimationController!,
       builder: (context, child) {
         return AnimatedContainer(
-            width: width,
-            height: widget.height,
-            duration: animationDuration,
-            child: MaterialButton(
-              padding: widget.padding,
-              shape: buttonShape,
-              color: _backgroundColor,
-              elevation: _buttonElevation,
-              onPressed: widget.enable ? widget.onPressed : null,
-              child: _buttonChild,
-            ));
+          width: width,
+          height: widget.height,
+          duration: animationDuration,
+          child: MaterialButton(
+            padding: widget.padding,
+            shape: buttonShape,
+            color: _backgroundColor,
+            elevation: _buttonElevation,
+            onPressed: widget.enable ? widget.onPressed : null,
+            child: _buttonChild,
+          ),
+        );
       },
     );
   }
 
+  // Get the button child based on the current animation value
   Widget get _buttonChild => getButtonChild(
       colorAnimation == null ? true : colorAnimation!.isCompleted);
 
+  // Get the elevation for elevated and outlined button shapes
   double get _buttonElevation =>
       widget.buttonShapeEnum == ButtonShapeEnum.elevated ||
               widget.buttonShapeEnum == ButtonShapeEnum.outline
           ? widget.elevation
           : 0.0;
 
+  // Get the button shape based on the current button shape enum
   RoundedRectangleBorder get buttonShape =>
       widget.buttonShapeEnum == ButtonShapeEnum.elevated ||
               widget.buttonShapeEnum == ButtonShapeEnum.flat
           ? _roundedRectangleBorderElevated
           : _roundedRectangleBorderOutlined;
 
+  // Get the background color for the outlined button shape
   Color get _backgroundColor =>
       widget.buttonShapeEnum == ButtonShapeEnum.elevated ||
               widget.buttonShapeEnum == ButtonShapeEnum.flat
           ? backgroundColor!
           : widget.inLineBackgroundColor;
 
+  // Get the rounded rectangle border for the elevated button shape
   RoundedRectangleBorder get _roundedRectangleBorderElevated =>
       RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-              widget.radius == null ? widget.height / 2 : widget.radius!),
-          side: BorderSide(color: Colors.transparent, width: 0));
+        borderRadius: BorderRadius.circular(
+          widget.radius == null ? widget.height / 2 : widget.radius!,
+        ),
+        side: BorderSide(color: Colors.transparent, width: 0),
+      );
 
+  // Get the rounded rectangle border for the outlined button shape
   RoundedRectangleBorder get _roundedRectangleBorderOutlined =>
       RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-              widget.radius == null ? widget.height / 2 : widget.radius!),
-          side: BorderSide(color: backgroundColor!, width: 1));
+        borderRadius: BorderRadius.circular(
+          widget.radius == null ? widget.height / 2 : widget.radius!,
+        ),
+        side: BorderSide(color: backgroundColor!, width: 1),
+      );
 }
