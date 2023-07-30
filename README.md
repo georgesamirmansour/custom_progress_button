@@ -135,4 +135,4 @@ If you want to contribute to the project, feel free to open a pull request. We a
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/georgesamirmansour/custom_progress_button/LICENSE).
+This project is licensed under the [MIT License](https://github.com/georgesamirmansour/custom_progress_button/blob/master/LICENSE).
