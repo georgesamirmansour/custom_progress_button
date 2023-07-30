@@ -2,7 +2,7 @@ name: custom_progress_button
 description: is a Flutter plugin for creating customizable buttons with different states and optional progress indicators.
 homepage: https://github.com/georgesamirmansour/custom_progress_button
 
-version: 2.0.0
+version: 2.0.1
 
 environment:
   sdk: '>=3.0.3 <4.0.0'

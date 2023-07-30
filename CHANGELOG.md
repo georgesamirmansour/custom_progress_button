@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 2.0.1
+- update README
+
 ### Version 2.0.0
 - **Breaking Change**: Renamed the package from `progress_button` to `custom_progress_button` to avoid naming conflicts.
 - Added support for null-safety.

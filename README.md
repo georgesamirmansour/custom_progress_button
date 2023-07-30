@@ -1,5 +1,3 @@
-Sure! Below is the full README for version 2.0.0 of the `ProgressButton` widget.
-
 # ProgressButton v2.0.0
 
 `ProgressButton` is a customizable button widget for Flutter that allows displaying different states based on the `ButtonState` enum. It supports a loading state with an optional progress indicator. The appearance and behavior of the button can be customized using various properties.
@@ -10,7 +8,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  progress_button: ^2.0.0
+  custom_progress_button : ^2.0.0
 ```
 
 Then, run `flutter pub get` to install the package.
@@ -28,7 +26,7 @@ import 'package:progress_button/progress_button.dart';
 To use the `ProgressButton`, provide a map of widgets for different button states and a map of colors for different states. Then, set the `state` property to control the current state of the button.
 
 ```dart
-ProgressButton(
+CustomProgressButton(
   stateWidgets: {
     ButtonState.idle: Text('Submit'), // Idle state widget
     ButtonState.loading: CircularProgressIndicator(), // Loading state widget
@@ -55,7 +53,7 @@ ProgressButton(
 You can customize various properties of the `ProgressButton`:
 
 ```dart
-ProgressButton(
+CustomProgressButton(
   // ... other properties
   minWidth: 200.0, // Minimum width of the button
   maxWidth: 400.0, // Maximum width of the button
@@ -77,7 +75,7 @@ ProgressButton(
 You can use the `ProgressButton.icon` constructor to create buttons with icon buttons for different states:
 
 ```dart
-ProgressButton.icon(
+CustomProgressButton.icon(
   iconButtons: {
     ButtonState.idle: CustomIconButton(
       text: 'Submit',
@@ -123,7 +121,7 @@ class CustomIconButton {
 
 ## Utility Functions
 
-The `ProgressButton` package also provides utility functions to help build widgets containing icons, text, and gaps with specified styles:
+The `CustomProgressButton` package also provides utility functions to help build widgets containing icons, text, and gaps with specified styles:
 
 - `buildChildWithIcon`: A function to build a widget containing an icon and optional text with a specified gap.
 - `buildChildWithIC`: A function to build a widget containing text and an icon with a specified gap.
