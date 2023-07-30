@@ -1,6 +1,6 @@
-# ProgressButton v2.0.0
+# CustomProgressButton 
 
-`ProgressButton` is a customizable button widget for Flutter that allows displaying different states based on the `ButtonState` enum. It supports a loading state with an optional progress indicator. The appearance and behavior of the button can be customized using various properties.
+`CustomProgressButton` is a customizable button widget for Flutter that allows displaying different states based on the `ButtonState` enum. It supports a loading state with an optional progress indicator. The appearance and behavior of the button can be customized using various properties.
 
 ## Installation
 
@@ -8,7 +8,7 @@ Add the following dependency to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  custom_progress_button : ^2.0.0
+  custom_progress_button : ^2.0.1
 ```
 
 Then, run `flutter pub get` to install the package.
